@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de la scène - zApps Planner</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">zApps Planner</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-home"></i> Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calendar.html">
+                            <i class="fas fa-calendar-alt"></i> Calendrier
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">
+                            <i class="fas fa-user"></i> Profil
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container mt-4">
+        <!-- Back button -->
+        <div class="row mb-3">
+            <div class="col">
+                <a href="dashboard.html" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au tableau de bord
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scene information -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2 id="sceneTitle">Chargement de la scène...</h2>
+                        <p id="sceneAuthor" class="mb-0"></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5>Description</h5>
+                                <p id="sceneDescription">Chargement en cours...</p>
+                                
+                                <h5 class="mt-4">Personnages</h5>
+                                <div id="charactersList" class="list-group mb-4">
+                                    <!-- Character list will be loaded here -->
+                                </div>
+                                
+                                <div id="characterSelectionForm" class="mt-4">
+                                    <h5>Sélectionner mon personnage</h5>
+                                    <form id="joinSceneForm">
+                                        <div class="mb-3">
+                                            <label for="characterSelect" class="form-label">Personnage</label>
+                                            <select class="form-select" id="characterSelect" required>
+                                                <option value="" selected disabled>Choisissez un personnage</option>
+                                                <!-- Options will be loaded dynamically -->
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Confirmer mon personnage</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">Comédiens de cette scène</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <ul class="list-group list-group-flush" id="actorsList">
+                                            <!-- Actors will be loaded here -->
+                                            <li class="list-group-item text-center text-muted">
+                                                Aucun comédien assigné
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">Répétitions planifiées</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <ul class="list-group list-group-flush" id="rehearsalsList">
+                                            <!-- Rehearsals will be loaded here -->
+                                            <li class="list-group-item text-center text-muted">
+                                                Aucune répétition planifiée
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-sm btn-outline-primary w-100" id="planRehearsalBtn">
+                                            <i class="fas fa-plus-circle"></i> Planifier une répétition
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs for Costumes and Music -->
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs mb-4" id="sceneDetailTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="costumes-tab" data-bs-toggle="tab" data-bs-target="#costumes" type="button" role="tab">
+                            <i class="fas fa-tshirt"></i> Costumes
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="music-tab" data-bs-toggle="tab" data-bs-target="#music" type="button" role="tab">
+                            <i class="fas fa-music"></i> Musique
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">
+                            <i class="fas fa-sticky-note"></i> Notes
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Tab content -->
+                <div class="tab-content" id="sceneDetailTabContent">
+                    <!-- Costumes Tab -->
+                    <div class="tab-pane fade show active" id="costumes" role="tabpanel">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h5>Éléments de costume</h5>
+                                <p class="text-muted mb-4">Ajoutez des suggestions de costume pour chaque personnage</p>
+                                
+                                <div id="costumesList">
+                                    <!-- Costume list will be loaded here -->
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> Sélectionnez d'abord un personnage pour ajouter des éléments de costume.
+                                    </div>
+                                </div>
+                                
+                                <div id="costumeForm" class="mt-4 d-none">
+                                    <form id="addCostumeForm">
+                                        <div class="mb-3">
+                                            <label for="costumeDescription" class="form-label">Nouvel élément de costume</label>
+                                            <input type="text" class="form-control" id="costumeDescription" required placeholder="Ex: Chemise blanche, Chapeau noir, etc.">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Music Tab -->
+                    <div class="tab-pane fade" id="music" role="tabpanel">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h5>Suggestions musicales</h5>
+                                <p class="text-muted mb-4">Proposez des musiques pour cette scène</p>
+                                
+                                <div class="mb-4" id="musicList">
+                                    <!-- Music suggestions will be loaded here -->
+                                    <div class="text-center p-3 text-muted">
+                                        <i class="fas fa-music fa-2x mb-2"></i>
+                                        <p>Aucune suggestion musicale pour le moment</p>
+                                    </div>
+                                </div>
+                                
+                                <form id="addMusicForm">
+                                    <div class="row g-3">
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-control" id="musicTitle" required placeholder="Titre de la musique">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="musicArtist" required placeholder="Artiste">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-primary w-100">Ajouter</button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <input type="url" class="form-control" id="musicLink" placeholder="Lien YouTube ou Spotify (optionnel)">
+                                    </div>
+                                    <div class="mt-2">
+                                        <textarea class="form-control" id="musicNotes" rows="2" placeholder="Notes sur cette suggestion (optionnel)"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notes Tab -->
+                    <div class="tab-pane fade" id="notes" role="tabpanel">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h5>Notes et commentaires</h5>
+                                <p class="text-muted mb-4">Notes sur la mise en scène, indications de jeu, etc.</p>
+                                
+                                <div class="mb-4" id="notesList">
+                                    <!-- Notes will be loaded here -->
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> Aucune note pour le moment.
+                                    </div>
+                                </div>
+                                
+                                <form id="addNoteForm">
+                                    <div class="mb-3">
+                                        <label for="noteContent" class="form-label">Ajouter une note</label>
+                                        <textarea class="form-control" id="noteContent" rows="3" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Publier</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for planning rehearsal -->
+    <div class="modal fade" id="planRehearsalModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary
+<div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Planifier une répétition</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="planRehearsalForm">
+                        <div class="mb-3">
+                            <label for="rehearsalDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="rehearsalDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rehearsalTime" class="form-label">Heure</label>
+                            <input type="time" class="form-control" id="rehearsalTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rehearsalDuration" class="form-label">Durée (en heures)</label>
+                            <input type="number" class="form-control" id="rehearsalDuration" min="0.5" max="5" step="0.5" value="2" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rehearsalLocation" class="form-label">Lieu</label>
+                            <input type="text" class="form-control" id="rehearsalLocation" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="coachPresence">
+                            <label class="form-check-label" for="coachPresence">Demander la présence de Stéphanie</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rehearsalNotes" class="form-label">Notes (optionnel)</label>
+                            <textarea class="form-control" id="rehearsalNotes" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="saveRehearsalBtn">Planifier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Our scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/scene.js"></script>
+</body>
+</html>

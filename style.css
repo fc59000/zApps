@@ -1,0 +1,59 @@
+/* Main colors */
+:root {
+    --primary-color: #8b0000; /* Dark red, theatrical */
+    --secondary-color: #d4af37; /* Gold */
+    --dark-color: #2c2c2c;
+    --light-color: #f8f9fa;
+}
+
+body {
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Override Bootstrap's primary color */
+.bg-primary, .btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-primary:hover {
+    background-color: #6b0000 !important;
+    border-color: #6b0000 !important;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.5rem;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Animation for the page load */
+.card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Guest access link styling */
+#guestAccess {
+    color: var(--dark-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+#guestAccess:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
