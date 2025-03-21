@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - zApps Planner</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">zApps Planner</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard.html">
+                            <i class="fas fa-home"></i> Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calendar.html">
+                            <i class="fas fa-calendar-alt"></i> Calendrier
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">
+                            <i class="fas fa-user"></i> Profil
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Main content -->
+    <div class="container mt-4">
+        <!-- Welcome message -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="card-title">Bienvenue, <span id="userName">Comédien</span> !</h2>
+                        <p class="card-text">
+                            Ici, vous pouvez gérer vos scènes, vos disponibilités, et voir les répétitions à venir.
+                        </p>
+                        <div id="coachMessage" class="d-none">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i> En tant que coach, vous avez accès à toutes les scènes et pouvez laisser des commentaires.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs for My Scenes and All Scenes -->
+        <ul class="nav nav-tabs mb-4" id="sceneTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="my-scenes-tab" data-bs-toggle="tab" data-bs-target="#my-scenes" type="button" role="tab">
+                    Mes scènes
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="all-scenes-tab" data-bs-toggle="tab" data-bs-target="#all-scenes" type="button" role="tab">
+                    Toutes les scènes
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab">
+                    Répétitions à venir
+                </button>
+            </li>
+        </ul>
+        
+        <!-- Tab content -->
+        <div class="tab-content" id="sceneTabContent">
+            <!-- My Scenes Tab -->
+            <div class="tab-pane fade show active" id="my-scenes" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="alert alert-warning" id="noScenesMessage">
+                            <i class="fas fa-exclamation-triangle"></i> Vous n'avez pas encore sélectionné de scènes. Veuillez choisir vos scènes dans l'onglet "Toutes les scènes".
+                        </div>
+                        
+                        <div id="myScenesContainer" class="row row-cols-1 row-cols-md-2 g-4">
+                            <!-- My scenes will be loaded here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- All Scenes Tab -->
+            <div class="tab-pane fade" id="all-scenes" role="tabpanel">
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="text" class="form-control" id="sceneSearch" placeholder="Rechercher une scène...">
+                    </div>
+                </div>
+                
+                <div id="allScenesContainer" class="row row-cols-1 row-cols-md-2 g-4">
+                    <!-- All scenes will be loaded here dynamically -->
+                </div>
+            </div>
+            
+            <!-- Upcoming Rehearsals Tab -->
+            <div class="tab-pane fade" id="upcoming" role="tabpanel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="list-group" id="upcomingRehearsalsContainer">
+                            <!-- Upcoming rehearsals will be loaded here dynamically -->
+                            <div class="text-center p-5" id="noRehearsalsMessage">
+                                <i class="fas fa-calendar-times fa-3x mb-3 text-muted"></i>
+                                <h5>Aucune répétition à venir</h5>
+                                <p>Les répétitions planifiées apparaîtront ici.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-3 bg-light text-center">
+        <div class="container">
+            <p class="mb-0">zApps Planner - Festival Mai 2025</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Our scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
