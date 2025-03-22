@@ -667,12 +667,20 @@ function loadRehearsals(sceneId) {
           month: 'long'
         });
         
+        // Vérifier si l'utilisateur courant est le créateur
+        const isCreator = rehearsal.createdBy === auth.currentUser.uid;
+        
         const rehearsalItem = document.createElement('li');
         rehearsalItem.className = 'list-group-item';
         rehearsalItem.innerHTML = `
           <div class="d-flex w-100 justify-content-between">
             <strong>${formattedDate}</strong>
             <span>${rehearsal.time}</span>
+            ${isCreator ? `
+              <button class="btn btn-sm btn-outline-danger delete-rehearsal-btn" data-id="${doc.id}">
+                <i class="fas fa-trash"></i>
+              </button>
+            ` : ''}
           </div>
           <div class="mt-1">
             <i class="fas fa-map-marker-alt"></i> ${rehearsal.location}
@@ -693,6 +701,13 @@ function loadRehearsals(sceneId) {
         `;
         
         rehearsalsList.appendChild(rehearsalItem);
+      });
+      
+      // Ajouter les écouteurs d'événements pour les boutons de suppression
+      document.querySelectorAll('.delete-rehearsal-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          deleteRehearsal(this.getAttribute('data-id'));
+        });
       });
     })
     .catch((error) => {
@@ -849,4 +864,23 @@ function saveRehearsal(sceneId) {
       console.error("Error saving rehearsal:", error);
       alert("Une erreur s'est produite lors de l'enregistrement de la répétition: " + error.message);
     });
+}
+
+// Delete a rehearsal
+function deleteRehearsal(rehearsalId) {
+  if (confirm("Voulez-vous vraiment supprimer cette répétition ?")) {
+    db.collection('rehearsals').doc(rehearsalId).delete()
+      .then(() => {
+        alert("Répétition supprimée");
+        
+        // Reload rehearsals
+        const urlParams = new URLSearchParams(window.location.search);
+        const sceneId = urlParams.get('id');
+        loadRehearsals(sceneId);
+      })
+      .catch((error) => {
+        console.error("Error deleting rehearsal:", error);
+        alert("Erreur lors de la suppression");
+      });
+  }
 }
