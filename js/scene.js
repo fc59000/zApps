@@ -777,6 +777,8 @@ function saveRehearsal(sceneId) {
   const coachPresence = document.getElementById('coachPresence').checked;
   const notes = document.getElementById('rehearsalNotes').value;
   
+  console.log("Tentative d'ajout de répétition:", { date, time, location, duration, coachPresence });
+  
   if (!date || !time || !location) {
     alert("Veuillez remplir tous les champs requis");
     return;
@@ -799,33 +801,52 @@ function saveRehearsal(sceneId) {
       const participants = [];
       
       castingsSnapshot.forEach((doc) => {
-        participants.push(doc.data().userName);
+        if (doc.data().userName) {
+          participants.push(doc.data().userName);
+        }
       });
       
+      // Utiliser Timestamp pour les dates
       return db.collection('rehearsals').add({
         sceneId: sceneId,
+        sceneName: sceneDoc.data().title || '',
         date: date,
         time: time,
-        duration: parseFloat(duration),
+        duration: parseFloat(duration) || 2,
         location: location,
         requestCoach: coachPresence,
-        notes: notes,
+        notes: notes || '',
         participants: participants,
         createdBy: userId,
         creatorName: userData.name,
-        createdAt: new Date()
+        createdAt: firebase.firestore.Timestamp.now()
       });
     })
     .then(() => {
-      // Close modal and reload rehearsals
-      const modal = bootstrap.Modal.getInstance(document.getElementById('planRehearsalModal'));
-      modal.hide();
+      console.log("Répétition enregistrée avec succès");
+      
+      // Fermer le modal de manière robuste
+      try {
+        const modalElement = document.getElementById('planRehearsalModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        } else {
+          // Fallback si l'instance de modal n'est pas trouvée
+          jQuery(modalElement).modal('hide');
+        }
+      } catch (error) {
+        console.error("Erreur lors de la fermeture du modal:", error);
+        // Fallback ultime
+        document.querySelector('.modal-backdrop')?.remove();
+        document.body.classList.remove('modal-open');
+      }
       
       alert("Répétition planifiée avec succès!");
       loadRehearsals(sceneId);
     })
     .catch((error) => {
       console.error("Error saving rehearsal:", error);
-      alert("Une erreur s'est produite. Veuillez réessayer.");
+      alert("Une erreur s'est produite lors de l'enregistrement de la répétition: " + error.message);
     });
 }
